@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Practical Task 1</string>
+    <string name="title">Random number generator</string>
+    <string name="generate_negative_number">Generate negative number</string>
+    <string name="generate">Generate</string>
+    <string name="number">Number</string>
+    <string name="generating_date">Generating date</string>
+</resources>
