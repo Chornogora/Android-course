@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Practical Task 1</string>
+    <string name="app_name">Practical Task 1, PZPI-17-1, Anton Bulhakov</string>
     <string name="title">Random number generator</string>
     <string name="generate_negative_number">Generate negative number</string>
     <string name="generate">Generate</string>

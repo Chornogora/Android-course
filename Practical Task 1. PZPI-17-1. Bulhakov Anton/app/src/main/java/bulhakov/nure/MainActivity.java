@@ -26,9 +26,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addNumber(View view) {
-        TableLayout tableLayout = (TableLayout) findViewById(R.id.table);
+        TableLayout tableLayout = findViewById(R.id.table);
         TableRow tableRow = new TableRow(this);
-        int number = addNumber();
+        int number = generateNumber();
         String dateFormatted = getDateFormatted();
 
         TextView numberTextView = generatedTableCell(String.valueOf(number));
@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
         return DateFormat.format("hh:mm dd.MM.yyyy", date).toString();
     }
 
-    private int addNumber(){
-        CheckBox checkBox = (CheckBox) findViewById(R.id.negative_checkbox);
+    private int generateNumber(){
+        CheckBox checkBox = findViewById(R.id.negative_checkbox);
         int number = random.nextInt();
         number = (number > 0) ? number : -number;
         return checkBox.isChecked() ? -number : number;

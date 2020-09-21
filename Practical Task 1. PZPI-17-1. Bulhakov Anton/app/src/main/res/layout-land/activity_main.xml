@@ -41,10 +41,10 @@
 
     <TableLayout
         android:id="@+id/table"
-        android:layout_width="370dp"
+        android:layout_width="400dp"
         android:layout_height="594dp"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="160dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/negative_checkbox"
         android:stretchColumns="1">
