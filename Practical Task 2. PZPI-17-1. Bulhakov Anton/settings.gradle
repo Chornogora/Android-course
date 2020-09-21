@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name = "Practical Task 2. PZPI-17-1. Bulhakov Anton"
