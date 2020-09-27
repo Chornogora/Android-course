@@ -7,16 +7,13 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
-    private int[] colors = {128, 128, 128};
+    private int[] colors;
 
     private SeekBar[] bars;
 
@@ -27,33 +24,36 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
         bars = new SeekBar[]{findViewById(R.id.red_bar), findViewById(R.id.green_bar), findViewById(R.id.blue_bar)};
         Stream.of(bars).forEach(bar -> bar.setOnSeekBarChangeListener(this));
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
+        setCircleBackgroundColor();
+        setColorDescription();
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        colors = Stream.of(bars).mapToInt(SeekBar::getProgress).toArray();
-        View circle = findViewById(R.id.circle);
-
-        GradientDrawable drawable = (GradientDrawable) circle.getBackground().getCurrent();
-        drawable.setColor(Color.rgb(colors[0], colors[1], colors[2]));
-        //circle.setBackgroundColor(Color.rgb(colors[0], colors[1], colors[2]));
+        setCircleBackgroundColor();
+        setColorDescription();
     }
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-
+        /*Doesn't need to be realized*/
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        /*SeekBar[] bars = new SeekBar[]{findViewById(R.id.red_bar), findViewById(R.id.green_bar), findViewById(R.id.blue_bar)};
+        /*Doesn't need to be realized*/
+    }
+
+    private void setCircleBackgroundColor(){
         colors = Stream.of(bars).mapToInt(SeekBar::getProgress).toArray();
         View circle = findViewById(R.id.circle);
-        circle.setBackgroundColor(colors[0] << 16 + colors[1] << 8 + colors[2]);*/
+        GradientDrawable drawable = (GradientDrawable) circle.getBackground().getCurrent();
+        drawable.setColor(Color.rgb(colors[0], colors[1], colors[2]));
+    }
+
+    private void setColorDescription(){
+        String description = String.format("0x%H%H%H", colors[0], colors[1], colors[2]);
+        TextView descriptionView = findViewById(R.id.color_text);
+        descriptionView.setText(description);
     }
 }
