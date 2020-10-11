@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/history"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/linearLayout"
+        android:textSize="28sp"
+        android:layout_height="0dp"
+        android:layout_width="0dp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/control_panel">
+
+        <TextView
+            android:id="@+id/display"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/equals_button"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:onClick="resolveOperation"
+            android:text="@string/equals"
+            app:layout_constraintDimensionRatio="1:1" />
+    </LinearLayout>
+
+    <TableLayout
+        android:id="@+id/control_panel"
+        android:layout_width="352dp"
+        android:layout_height="212dp"
+        android:layout_marginBottom="70dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent
+">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:onClick="addNumericOperand"
+                android:text="1"
+                android:textSize="25sp" />
+
+            <Button
+                android:text="2"
+                android:onClick="addNumericOperand"
+                android:textSize="25sp" />
+
+            <Button
+                android:text="3"
+                android:onClick="addNumericOperand"
+                android:textSize="25sp" />
+
+            <Button
+                android:text="+"
+                android:onClick="addPlusOperation"
+                android:textSize="25sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:text="4"
+                android:onClick="addNumericOperand"
+                android:textSize="25sp" />
+
+            <Button
+                android:text="5"
+                android:onClick="addNumericOperand"
+                android:textSize="25sp" />
+
+            <Button
+                android:text="6"
+                android:onClick="addNumericOperand"
+                android:textSize="25sp" />
+
+            <Button
+                android:text="-"
+                android:onClick="addMinusOperation"
+                android:textSize="25sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:text="7"
+                android:onClick="addNumericOperand"
+                android:textSize="25sp" />
+
+            <Button
+                android:text="8"
+                android:onClick="addNumericOperand"
+                android:textSize="25sp" />
+
+            <Button
+                android:text="9"
+                android:onClick="addNumericOperand"
+                android:textSize="25sp" />
+
+            <Button
+                android:text="*"
+                android:onClick="addMultiplyOperation"
+                android:textSize="25sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:text="."
+                android:onClick="addDotOperand"
+                android:textSize="25sp" />
+
+            <Button
+                android:text="0"
+                android:onClick="addNumericOperand"
+                android:textSize="25sp" />
+
+            <Button
+                android:text="C"
+                android:onClick="clearAll"
+                android:textSize="25sp" />
+
+            <Button
+                android:text="/"
+                android:onClick="addDivideOperation"
+                android:textSize="25sp" />
+        </TableRow>
+    </TableLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
