@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void addMinusOperation(View view) {
         if (operandBuilder.length() == 0) {
-            operandBuilder.append("-");
+            appendToInterface("-");
             display.setText(display.getText().toString() + "-");
             return;
         }

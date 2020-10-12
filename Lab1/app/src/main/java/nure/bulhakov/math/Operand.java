@@ -1,10 +1,9 @@
 package nure.bulhakov.math;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.function.BiFunction;
 
-public class Operand implements Serializable {
+public class Operand {
 
     private Operand leftOperand;
 
