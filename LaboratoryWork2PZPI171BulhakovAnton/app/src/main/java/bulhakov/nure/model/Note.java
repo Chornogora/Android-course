@@ -1,8 +1,9 @@
 package bulhakov.nure.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Note {
+public class Note implements Serializable {
 
     private String id;
 
@@ -14,7 +15,7 @@ public class Note {
 
     private Date creationDate;
 
-    //TODO photo
+    private String imagePath;
 
     public enum Priority {
         LOW, MEDIUM, HIGH
@@ -58,6 +59,14 @@ public class Note {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }
 

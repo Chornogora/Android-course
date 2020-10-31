@@ -2,10 +2,15 @@ package bulhakov.nure.repository.impl;
 
 import android.content.Context;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,22 +36,29 @@ public class FileNoteRepository implements NoteRepository {
 
     @Override
     public List<Note> getAll() {
-        return null;
+        return new ArrayList<>(notes.values());
     }
 
     @Override
     public Note addNote(Note note) {
-        return null;
+        notes.put(note.getId(), note);
+        serializeAll();
+        return note;
     }
 
     @Override
     public Note removeNote(String id) {
-        return null;
+        Note note = notes.remove(id);
+        serializeAll();
+        return note;
     }
 
     @Override
     public Note editNote(Note note) {
-        return null;
+        Note old = notes.get(note.getId());
+        notes.put(note.getId(), note);
+        serializeAll();
+        return old;
     }
 
     private void createFile(File file) {
@@ -65,7 +77,17 @@ public class FileNoteRepository implements NoteRepository {
     private void readAllNotes() {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(notesFile))) {
             notes = (Map<String, Note>) ois.readObject();
+        } catch (EOFException e) {
+            notes = new HashMap<>();
         } catch (IOException | ClassNotFoundException e) {
+            throw new SerializationException(e);
+        }
+    }
+
+    private void serializeAll() {
+        try (ObjectOutputStream ois = new ObjectOutputStream(new FileOutputStream(notesFile))) {
+            ois.writeObject(notes);
+        } catch (IOException e) {
             throw new SerializationException(e);
         }
     }
