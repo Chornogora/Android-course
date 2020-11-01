@@ -42,7 +42,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="120dp"
         android:layout_marginTop="10dp"
-        android:text="Example"
         android:textSize="26sp"/>
 
     <TextView
@@ -51,7 +50,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="120dp"
         android:layout_marginTop="40dp"
-        android:text="★☆☆"
         android:textColor="@color/gold"
         android:textSize="26sp"/>
 
@@ -61,11 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="120dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="80dp"
-        android:text="Somebody once told me the world is gonna roll me
-I ain't the sharpest tool in the shed
-She was looking kind of dumb with her finger and her thumb
-In the shape of an 'L' on her forehead"/>
+        android:layout_marginTop="80dp"/>
 
     <TextView
         android:id="@+id/noteDatetime"
@@ -75,7 +69,6 @@ In the shape of an 'L' on her forehead"/>
         android:layout_alignParentEnd="true"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
-        android:text="05.01.2000"
         android:textColor="@color/grey"
         android:textSize="14sp"/>
 </RelativeLayout>

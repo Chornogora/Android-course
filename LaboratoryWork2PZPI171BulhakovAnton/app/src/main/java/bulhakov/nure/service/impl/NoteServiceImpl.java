@@ -1,6 +1,7 @@
 package bulhakov.nure.service.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import bulhakov.nure.model.Note;
 import bulhakov.nure.repository.NoteRepository;
@@ -21,6 +22,10 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public Note addNote(Note note) {
+        if(note.getId() == null){
+            String id = UUID.randomUUID().toString();
+            note.setId(id);
+        }
         return noteRepository.addNote(note);
     }
 

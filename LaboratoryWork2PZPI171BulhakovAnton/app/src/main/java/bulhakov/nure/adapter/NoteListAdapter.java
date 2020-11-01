@@ -1,10 +1,12 @@
 package bulhakov.nure.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,8 +17,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
 
 import bulhakov.nure.R;
+import bulhakov.nure.Util.Pair;
 import bulhakov.nure.model.Note;
 
 public class NoteListAdapter extends ArrayAdapter<Note> {
@@ -27,11 +32,14 @@ public class NoteListAdapter extends ArrayAdapter<Note> {
 
     private final List<Note> notes;
 
-    public NoteListAdapter(Context context, int listId, List<Note> notes){
+    private final Observer observer;
+
+    public NoteListAdapter(Context context, int listId, List<Note> notes, Observer observer) {
         super(context, R.layout.note);
         this.context = context;
         this.notes = notes;
         this.listId = listId;
+        this.observer = observer;
     }
 
     @Override
@@ -55,27 +63,24 @@ public class NoteListAdapter extends ArrayAdapter<Note> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         NoteViewHolder viewHolder;
 
-        if(convertView==null){
+        if (convertView == null) {
             convertView = inflater.inflate(this.listId, parent, false);
             viewHolder = new NoteViewHolder(convertView);
             convertView.setTag(viewHolder);
-        }
-        else{
+        } else {
             viewHolder = (NoteViewHolder) convertView.getTag();
         }
 
         Note note = notes.get(position);
-
-        //TODO set image
-        viewHolder.noteTitle.setText(note.getName());
-        viewHolder.noteText.setText(note.getText());
-        setDatetime(viewHolder.noteDatetime, note.getCreationDate());
-        setPriority(viewHolder.notePriority, note);
+        viewHolder.init(note);
+        viewHolder.addObserver(observer);
 
         return convertView;
     }
 
-    private static class NoteViewHolder{
+    private class NoteViewHolder extends Observable {
+
+        String noteId;
 
         ImageView noteImage;
 
@@ -87,26 +92,79 @@ public class NoteListAdapter extends ArrayAdapter<Note> {
 
         TextView noteDatetime;
 
-        public NoteViewHolder(View view) {
+        ImageButton editButton;
+
+        ImageButton deleteButton;
+
+        private NoteViewHolder(View view) {
             noteImage = view.findViewById(R.id.noteImage);
             noteTitle = view.findViewById(R.id.noteTitle);
             notePriority = view.findViewById(R.id.notePriority);
             noteText = view.findViewById(R.id.noteText);
             noteDatetime = view.findViewById(R.id.noteDatetime);
+            editButton = view.findViewById(R.id.editButton);
+            deleteButton = view.findViewById(R.id.deleteButton);
         }
-    }
 
-    private void setDatetime(TextView view, Date date){
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm dd.MM.yyyy", Locale.getDefault());
-        String dateAsString = format.format(date);
-        view.setText(dateAsString);
-    }
+        private void init(Note note) {
+            //TODO set image
+            noteId = note.getId();
+            noteTitle.setText(note.getName());
+            noteText.setText(note.getText());
+            setDatetime(noteDatetime, note.getCreationDate());
+            setPriority(notePriority, note);
 
-    private void setPriority(TextView view, Note note){
-        switch (note.getPriority()){
-            case LOW: view.setText("★☆☆"); break;
-            case MEDIUM: view.setText("★★☆"); break;
-            default: view.setText("★★★"); break;
+            editButton.setTag(note.getId());
+            deleteButton.setTag(note.getId());
+            initEditButton();
+            initDeleteButton();
+        }
+
+        private void setDatetime(TextView view, Date date) {
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm dd.MM.yyyy", Locale.getDefault());
+            String dateAsString = format.format(date);
+            view.setText(dateAsString);
+        }
+
+        private void setPriority(TextView view, Note note) {
+            switch (note.getPriority()) {
+                case LOW:
+                    view.setText("★☆☆");
+                    break;
+                case MEDIUM:
+                    view.setText("★★☆");
+                    break;
+                default:
+                    view.setText("★★★");
+                    break;
+            }
+        }
+
+        private void initEditButton() {
+            editButton.setOnLongClickListener(event -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("edit");
+                builder.setPositiveButton(R.string.yes, (dialog, i) -> {
+                    setChanged();
+                    notifyObservers(new Pair<>("update", noteId));
+                });
+                builder.setNegativeButton(R.string.cancel, ((dialog, which) -> dialog.dismiss()));
+                return true;
+            });
+        }
+
+        private void initDeleteButton() {
+            deleteButton.setOnLongClickListener(event -> {
+                new AlertDialog.Builder(context)
+                        .setMessage(R.string.sure_delete)
+                        .setPositiveButton(R.string.yes, (dialog, i) -> {
+                            setChanged();
+                            notifyObservers(new Pair<>("delete", noteId));
+                        })
+                        .setNegativeButton(R.string.no, ((dialog, which) -> dialog.dismiss()))
+                        .show();
+                return true;
+            });
         }
     }
 }
