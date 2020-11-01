@@ -11,18 +11,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import bulhakov.nure.R;
 import bulhakov.nure.model.Note;
 
 public class NoteListAdapter extends ArrayAdapter<Note> {
 
-    private Context context;
+    private final Context context;
 
-    private int listId;
+    private final int listId;
 
-    private List<Note> notes;
+    private final List<Note> notes;
 
     public NoteListAdapter(Context context, int listId, List<Note> notes){
         super(context, R.layout.note);
@@ -33,13 +36,11 @@ public class NoteListAdapter extends ArrayAdapter<Note> {
 
     @Override
     public int getCount() {
-        // возвращаем количество элементов списка
         return notes.size();
     }
 
     @Override
     public Note getItem(int position) {
-        // получение одного элемента по индексу
         return notes.get(position);
     }
 
@@ -65,6 +66,13 @@ public class NoteListAdapter extends ArrayAdapter<Note> {
 
         Note note = notes.get(position);
 
+        //TODO set image
+        viewHolder.noteTitle.setText(note.getName());
+        viewHolder.noteText.setText(note.getText());
+        setDatetime(viewHolder.noteDatetime, note.getCreationDate());
+        setPriority(viewHolder.notePriority, note);
+
+        return convertView;
     }
 
     private static class NoteViewHolder{
@@ -85,6 +93,20 @@ public class NoteListAdapter extends ArrayAdapter<Note> {
             notePriority = view.findViewById(R.id.notePriority);
             noteText = view.findViewById(R.id.noteText);
             noteDatetime = view.findViewById(R.id.noteDatetime);
+        }
+    }
+
+    private void setDatetime(TextView view, Date date){
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm dd.MM.yyyy", Locale.getDefault());
+        String dateAsString = format.format(date);
+        view.setText(dateAsString);
+    }
+
+    private void setPriority(TextView view, Note note){
+        switch (note.getPriority()){
+            case LOW: view.setText("★☆☆"); break;
+            case MEDIUM: view.setText("★★☆"); break;
+            default: view.setText("★★★"); break;
         }
     }
 }

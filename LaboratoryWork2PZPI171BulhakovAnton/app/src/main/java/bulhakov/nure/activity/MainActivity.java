@@ -6,6 +6,7 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Date;
 import java.util.List;
 
 import bulhakov.nure.Context;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         noteService = Context.getContext().getNoteService();
+        addNote();
     }
 
     @Override
@@ -33,7 +35,18 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         List<Note> notes = noteService.getAll();
         listView = findViewById(R.id.note_list);
-        ListAdapter adapter = new NoteListAdapter(this, R.id.note_list, notes);
+        ListAdapter adapter = new NoteListAdapter(this, R.layout.note, notes);
         listView.setAdapter(adapter);
+    }
+
+    private void addNote(){
+        Note note = new Note();
+        note.setId("222");
+        note.setName("LooooL");
+        note.setPriority(Note.Priority.HIGH);
+        note.setCreationDate(new Date(System.currentTimeMillis()));
+        note.setText("Dungeon master");
+
+        noteService.addNote(note);
     }
 }
